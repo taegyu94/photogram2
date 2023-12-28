@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.service.AuthService;
@@ -38,7 +39,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/auth/signup")
-	public String signUp(@Valid SignupDto signupDto, BindingResult bindingResult) {
+	public @ResponseBody String signUp(@Valid SignupDto signupDto, BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors()) {
 			Map<String,String> errorMap = new HashMap<>();
@@ -49,9 +50,9 @@ public class AuthController {
 				System.out.println(error.getDefaultMessage());
 				System.out.println("===============");
 			}
+			return "오류 발생";
 		}
 
-		
 		log.info(signupDto.toString());
 		User user = signupDto.toEntity();
 		log.info(user.toString());
